@@ -1,0 +1,25 @@
+{
+    "name": "sol-maker/query-builder-doctrine",
+    "type": "library",
+    "authors": [
+        {
+            "name": "sol-maker",
+            "email": "nzua1991@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "/home/nz/work/query-builder"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SolMaker\\Doctrine\\": "src/"
+        }
+    },
+    "require": {
+        "sol-maker/criteria-builder": "dev-master",
+        "doctrine/orm": "^2.6"
+    }
+}
