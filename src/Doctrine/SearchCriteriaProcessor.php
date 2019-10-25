@@ -7,7 +7,9 @@ namespace SolMaker\Doctrine;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use SolMaker\Condition\AbstractRangeCondition;
 use SolMaker\Filter\Between;
+use SolMaker\Filter\DateTimeRange;
 use SolMaker\Filter\Equal;
 use SolMaker\Filter\GreaterThan;
 use SolMaker\Filter\GreaterThanOrEquals;
@@ -59,16 +61,6 @@ class SearchCriteriaProcessor
             $field = sprintf('%s.%s', $this->builderAlias, $filter->getEntityFieldName());
             $params = sprintf(':%s', $parameterStr);
 
-            if ($filter instanceof Between) {
-                $start = sprintf($params, '_start');
-                $end = sprintf($params, '_end');
-
-                $qb->andWhere($qb->expr()->between($field, $filter->getValueStart(), $filter->getValueEnd()));
-                $qb->setParameter($start, $filter->getValueStart());
-                $qb->setParameter($end, $filter->getValueEnd());
-                continue;
-            }
-
             if ($filter instanceof Equal) {
                 $qb->andWhere($qb->expr()->eq($field, $params));
             } else if ($filter instanceof NotEqual) {
@@ -81,6 +73,23 @@ class SearchCriteriaProcessor
                 $qb->andWhere($qb->expr()->lt($field, $params));
             } else if ($field instanceof LessThanOrEquals) {
                 $qb->andWhere($qb->expr()->lte($field, $params));
+            } else if ($filter instanceof AbstractRangeCondition) {
+                $start = sprintf($params, '_start');
+                $end = sprintf($params, '_end');
+
+                if ($filter instanceof DateTimeRange) {
+                    $qb->andWhere($qb->expr()->between($field, $filter->getValueStart(), $filter->getValueEnd()));
+                    $qb->setParameter($start, $filter->getValueStart());
+                    $qb->setParameter($end, $filter->getValueEnd());
+                    continue;
+                } else if ($filter instanceof Between) {
+                    $qb
+                        ->andWhere($qb->expr()->gte($field, $filter->getValueStart()))
+                        ->andWhere($qb->expr()->lte($field, $filter->getValueEnd()));
+
+                    $qb->setParameter($start, $filter->getValueStart(), \Doctrine\DBAL\Types\Type::DATETIME);
+                    $qb->setParameter($end, $filter->getValueEnd(), \Doctrine\DBAL\Types\Type::DATETIME);
+                }
             }
 
             $qb->setParameter($params, $filter->getValue());
