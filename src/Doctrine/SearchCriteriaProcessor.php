@@ -108,11 +108,11 @@ class SearchCriteriaProcessor
             $params = sprintf(':%s', $parameterStr);
 
             if ($search instanceof LikeAfter) {
-                $value = $search->getValue().'%s';
+                $value = $search->getValue().'%';
             } else if ($search instanceof LikeBefore) {
-                $value = '%s'.$search->getValue();
+                $value = '%'.$search->getValue();
             } else if ($search instanceof LikeAround) {
-                $value = '%s'. $search->getValue(). '%s';
+                $value = '%'. $search->getValue(). '%';
             } else {
                 $value = $search->getValue();
             }
