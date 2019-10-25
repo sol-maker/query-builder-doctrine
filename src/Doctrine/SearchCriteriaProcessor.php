@@ -7,6 +7,7 @@ namespace SolMaker\Doctrine;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use SolMaker\Filter\Between;
 use SolMaker\Filter\Equal;
 use SolMaker\Filter\GreaterThan;
 use SolMaker\Filter\GreaterThanOrEquals;
@@ -21,6 +22,7 @@ use SolMaker\SearchCriteria;
 class SearchCriteriaProcessor
 {
     public const DEFAULT_BUILDER_ALIAS = 'c';
+
     /**
      * @var string
      */
@@ -56,6 +58,16 @@ class SearchCriteriaProcessor
             $parameterStr = 'filter_'.$key;
             $field = sprintf('%s.%s', $this->builderAlias, $filter->getEntityFieldName());
             $params = sprintf(':%s', $parameterStr);
+
+            if ($filter instanceof Between) {
+                $start = sprintf($params, '_start');
+                $end = sprintf($params, '_end');
+
+                $qb->andWhere($qb->expr()->between($field, $filter->getValueStart(), $filter->getValueEnd()));
+                $qb->setParameter($start, $filter->getValueStart());
+                $qb->setParameter($end, $filter->getValueEnd());
+                continue;
+            }
 
             if ($filter instanceof Equal) {
                 $qb->andWhere($qb->expr()->eq($field, $params));
