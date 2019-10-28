@@ -52,6 +52,7 @@ class SearchCriteriaProcessor
     /**
      * @param SearchCriteria $criteria
      * @param QueryBuilder $qb
+     * @throws \Exception
      */
     public function handleFilters(SearchCriteria $criteria, QueryBuilder $qb)
     {
@@ -80,7 +81,7 @@ class SearchCriteriaProcessor
                 if ($filter->hasStart() && !$filter->hasEnd()) {
                     $qb->andWhere($qb->expr()->gte($field, $start));
                     if ($filter instanceof DateTimeRange) {
-                        $qb->setParameter($start, $filter->getValueStart(),\Doctrine\DBAL\Types\Type::DATETIME);
+                        $qb->setParameter($start, new \DateTime($filter->getValueStart()),\Doctrine\DBAL\Types\Type::DATETIME);
                     } else {
                         $qb->setParameter($start, $filter->getValueStart());
                     }
@@ -90,7 +91,7 @@ class SearchCriteriaProcessor
                 if (!$filter->hasStart() && $filter->hasEnd()) {
                     $qb->andWhere($qb->expr()->lte($field, $end));
                     if ($filter instanceof DateTimeRange) {
-                        $qb->setParameter($end, $filter->getValueEnd(),\Doctrine\DBAL\Types\Type::DATETIME);
+                        $qb->setParameter($end, new \DateTime($filter->getValueEnd()),\Doctrine\DBAL\Types\Type::DATETIME);
                     } else {
                         $qb->setParameter($end, $filter->getValueEnd());
                     }
@@ -98,10 +99,10 @@ class SearchCriteriaProcessor
                 }
 
                 if ($filter->hasStart() && $filter->hasEnd()) {
-                    $qb->andWhere($qb->expr()->between($field, $filter->getValueStart(), $filter->getValueEnd()));
+                    $qb->andWhere($qb->expr()->between($field, $start, $end));
                     if ($filter instanceof DateTimeRange) {
-                        $qb->setParameter($start, $filter->getValueStart(), \Doctrine\DBAL\Types\Type::DATETIME);
-                        $qb->setParameter($end, $filter->getValueEnd(), \Doctrine\DBAL\Types\Type::DATETIME);
+                        $qb->setParameter($start, new \DateTime($filter->getValueStart()), \Doctrine\DBAL\Types\Type::DATETIME);
+                        $qb->setParameter($end, new \DateTime($filter->getValueEnd()), \Doctrine\DBAL\Types\Type::DATETIME);
                     } else {
                         $qb->setParameter($start, $filter->getValueStart());
                         $qb->setParameter($end, $filter->getValueEnd());
