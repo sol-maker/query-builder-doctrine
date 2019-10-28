@@ -936,7 +936,7 @@
             "source": {
                 "type": "git",
                 "url": "/home/nz/work/query-builder",
-                "reference": "7ebcfed2a097a7145262eda34a0c267e6dbcacf4"
+                "reference": "31064600deaff98c633ef17539de5d40558976d2"
             },
             "require": {
                 "php": "^7.1",
@@ -958,7 +958,7 @@
                     "email": "nzua1991@gmail.com"
                 }
             ],
-            "time": "2019-10-28T12:25:48+00:00"
+            "time": "2019-10-28T13:00:16+00:00"
         },
         {
             "name": "symfony/console",

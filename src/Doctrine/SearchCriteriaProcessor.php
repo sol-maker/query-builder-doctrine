@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use SolMaker\Condition\AbstractRangeCondition;
-use SolMaker\Filter\Between;
 use SolMaker\Filter\DateTimeRange;
 use SolMaker\Filter\Equal;
 use SolMaker\Filter\GreaterThan;
