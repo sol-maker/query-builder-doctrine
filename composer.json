@@ -19,7 +19,7 @@
         }
     },
     "require": {
-        "sol-maker/criteria-builder": "dev-master",
+        "sol-maker/query-builder": "dev-master",
         "doctrine/orm": "^2.6"
     }
 }

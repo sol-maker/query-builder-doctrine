@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "22f3632429f8aa00c549e040793f7eb5",
+    "content-hash": "1b117957917cace939ca22868e53b16d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -931,12 +931,12 @@
             "time": "2017-02-14T16:28:37+00:00"
         },
         {
-            "name": "sol-maker/criteria-builder",
+            "name": "sol-maker/query-builder",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "/home/nz/work/query-builder",
-                "reference": "30a52c322cbe83e3a389d3af91c52cbc99101e73"
+                "reference": "7ebcfed2a097a7145262eda34a0c267e6dbcacf4"
             },
             "require": {
                 "php": "^7.1",
@@ -958,7 +958,7 @@
                     "email": "nzua1991@gmail.com"
                 }
             ],
-            "time": "2019-10-18T12:36:24+00:00"
+            "time": "2019-10-28T12:25:48+00:00"
         },
         {
             "name": "symfony/console",
@@ -1423,7 +1423,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sol-maker/criteria-builder": 20
+        "sol-maker/query-builder": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
