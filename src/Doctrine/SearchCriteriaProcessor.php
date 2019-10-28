@@ -74,8 +74,8 @@ class SearchCriteriaProcessor
                 $qb->andWhere($qb->expr()->lte($field, $params));
             } else if ($filter instanceof AbstractRangeCondition) {
 
-                $start = sprintf($params, '%s_start');
-                $end = sprintf($params, '%s_end');
+                $start = sprintf('%s_start', $params);
+                $end = sprintf('%s_end', $params);
 
                 if ($filter->hasStart() && !$filter->hasEnd()) {
                     $qb->andWhere($qb->expr()->gte($field, $start));
