@@ -74,8 +74,8 @@ class SearchCriteriaProcessor
             } else if ($field instanceof LessThanOrEquals) {
                 $qb->andWhere($qb->expr()->lte($field, $params));
             } else if ($filter instanceof AbstractRangeCondition) {
-                $start = sprintf($params, '_start');
-                $end = sprintf($params, '_end');
+                $start = sprintf($params, '%s_start');
+                $end = sprintf($params, '%s_end');
 
                 if ($filter instanceof DateTimeRange) {
                     $qb->andWhere($qb->expr()->between($field, $filter->getValueStart(), $filter->getValueEnd()));
