@@ -74,21 +74,40 @@ class SearchCriteriaProcessor
             } else if ($field instanceof LessThanOrEquals) {
                 $qb->andWhere($qb->expr()->lte($field, $params));
             } else if ($filter instanceof AbstractRangeCondition) {
+
                 $start = sprintf($params, '%s_start');
                 $end = sprintf($params, '%s_end');
 
-                if ($filter instanceof DateTimeRange) {
-                    $qb->andWhere($qb->expr()->between($field, $filter->getValueStart(), $filter->getValueEnd()));
-                    $qb->setParameter($start, $filter->getValueStart());
-                    $qb->setParameter($end, $filter->getValueEnd());
+                if ($filter->hasStart() && !$filter->hasEnd()) {
+                    $qb->andWhere($qb->expr()->gte($field, $start));
+                    if ($filter instanceof DateTimeRange) {
+                        $qb->setParameter($start, $filter->getValueStart(),\Doctrine\DBAL\Types\Type::DATETIME);
+                    } else {
+                        $qb->setParameter($start, $filter->getValueStart());
+                    }
                     continue;
-                } else if ($filter instanceof Between) {
-                    $qb
-                        ->andWhere($qb->expr()->gte($field, $filter->getValueStart()))
-                        ->andWhere($qb->expr()->lte($field, $filter->getValueEnd()));
+                }
 
-                    $qb->setParameter($start, $filter->getValueStart(), \Doctrine\DBAL\Types\Type::DATETIME);
-                    $qb->setParameter($end, $filter->getValueEnd(), \Doctrine\DBAL\Types\Type::DATETIME);
+                if (!$filter->hasStart() && $filter->hasEnd()) {
+                    $qb->andWhere($qb->expr()->lte($field, $end));
+                    if ($filter instanceof DateTimeRange) {
+                        $qb->setParameter($end, $filter->getValueEnd(),\Doctrine\DBAL\Types\Type::DATETIME);
+                    } else {
+                        $qb->setParameter($end, $filter->getValueEnd());
+                    }
+                    continue;
+                }
+
+                if ($filter->hasStart() && $filter->hasEnd()) {
+                    $qb->andWhere($qb->expr()->between($field, $filter->getValueStart(), $filter->getValueEnd()));
+                    if ($filter instanceof DateTimeRange) {
+                        $qb->setParameter($start, $filter->getValueStart(), \Doctrine\DBAL\Types\Type::DATETIME);
+                        $qb->setParameter($end, $filter->getValueEnd(), \Doctrine\DBAL\Types\Type::DATETIME);
+                    } else {
+                        $qb->setParameter($start, $filter->getValueStart());
+                        $qb->setParameter($end, $filter->getValueEnd());
+                    }
+                    continue;
                 }
             }
 
