@@ -34,6 +34,7 @@ class SearchCriteriaProcessor
      * @param EntityRepository $repository
      * @param string $builderAlias
      * @return Paginator
+     * @throws \Exception
      */
     public function handle(
         SearchCriteria $criteria,

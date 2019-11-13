@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b117957917cace939ca22868e53b16d",
+    "content-hash": "8c20e885f610cd2013eb0052e5337332",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -935,8 +935,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "/home/nz/work/query-builder",
+                "url": "https://github.com/sol-maker/query-builder.git",
                 "reference": "31064600deaff98c633ef17539de5d40558976d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sol-maker/query-builder/zipball/31064600deaff98c633ef17539de5d40558976d2",
+                "reference": "31064600deaff98c633ef17539de5d40558976d2",
+                "shasum": ""
             },
             "require": {
                 "php": "^7.1",

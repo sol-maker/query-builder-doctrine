@@ -10,7 +10,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "/home/nz/work/query-builder"
+            "url": "https://github.com/sol-maker/query-builder.git"
         }
     ],
     "autoload": {
